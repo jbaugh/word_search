@@ -4,15 +4,14 @@ defmodule WordSearch do
   """
 
   @doc """
-  Hello world.
+  Generate a word search from a list of words.
 
   ## Examples
 
-      iex> WordSearch.hello()
-      :world
+      iex> WordSearch.generate(["word", "another", "yetanother"], 15, "easy", "english")
 
   """
-  def hello do
-    :world
+  def generate(words, _size, difficulty, language) do
+    WordSearch.Alphabet.list(words, difficulty, language)
   end
 end
