@@ -14,7 +14,8 @@ defmodule WordSearch do
   def generate(words, size, difficulty, directions) do
     generate(words, size, difficulty, directions, "english")
   end
-  def generate(words, _size, difficulty, _directions, language) do
+  def generate(words, size, difficulty, directions, language) do
     WordSearch.Alphabet.list(words, difficulty, language)
+    WordSearch.Grid.fill_words(words, size, directions)
   end
 end
