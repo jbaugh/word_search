@@ -3,8 +3,8 @@ defmodule WordSearch.Grid do
     state = %{
       words: words,
       grid: %{}, # 1d "array"
-      size: size * size, # grid will be a 1d "array", so square the size
-      available_positions: generate_positions(size * size),
+      size: size, # size of one side
+      available_positions: generate_positions(size),
       directions: WordSearch.Directions.convert(directions)
     }
     place_words(state)
@@ -12,17 +12,29 @@ defmodule WordSearch.Grid do
     :ok
   end
 
-  defp display_grid(state) do
-    IO.puts inspect state[:grid]
+  defp display_grid(%{size: size, grid: grid}) do
+    grid_size = size * size
+    Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
+      x = rem(num, size)
+      y = div(num, size)
+      case Map.fetch(grid, num) do
+        {:ok, letter} -> IO.write "#{List.to_string([letter])} "
+        :error -> IO.write "  "
+      end
+
+      if x == 0 do
+        IO.puts ""
+      end 
+    end)
   end
 
   defp place_words(state = %{words: []}), do: state
-  defp place_words(state = %{words: [word|words], size: size, available_positions: available_positions, directions: [dir|directions]}) do
+  defp place_words(state = %{words: [word|words], directions: [dir|directions]}) do
     %{
       words: words,
       grid: place_word(state, word, dir)[:grid],
-      size: size,
-      available_positions: available_positions,
+      size: state[:size],
+      available_positions: state[:available_positions],
       directions: directions ++ [dir] # Cycle the directions
     } |> place_words
   end
@@ -40,7 +52,6 @@ defmodule WordSearch.Grid do
   end
 
   defp set_spot(state, x, y, letter) do
-    # Map.put(state[:grid], x + (y * state[:size], letter)
     put_in(state, [:grid, x + (y * state[:size])], letter)
   end
 
@@ -74,7 +85,7 @@ defmodule WordSearch.Grid do
   end
   defp _insert_word(state, [letter|word], direction, x, y) do
     {nx, ny} = WordSearch.Directions.next_x_y(x, y, direction)
-    set_spot(state, letter, x, y)
+    set_spot(state, x, y, letter)
     |> _insert_word(word, direction, nx, ny)
   end
 
@@ -86,7 +97,7 @@ defmodule WordSearch.Grid do
     true
   end
   defp _can_place_word?(state, [letter|word], direction, x, y) do
-    case spot_available?(state, letter, x, y) do
+    case spot_available?(state, x, y, letter) do
       true ->
         {nx, ny} = WordSearch.Directions.next_x_y(x, y, direction)
         _can_place_word?(state, word, direction, nx, ny)
@@ -94,8 +105,8 @@ defmodule WordSearch.Grid do
     end
   end
 
-  defp generate_positions(grid_size) do
-    side_size = round(:math.sqrt(grid_size))
+  defp generate_positions(side_size) do
+    grid_size = side_size * side_size
     Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
       {rem(num, side_size), div(num, side_size)}
     end)
