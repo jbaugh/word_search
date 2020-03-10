@@ -8,7 +8,7 @@ defmodule WordSearch do
 
   ## Examples
 
-      iex> WordSearch.generate(["word", "another", "yetanother"], 15, "easy", ["forward", "backward", "diagonal"])
+      iex> WordSearch.generate(["word", "another", "yetanother"], 10, "easy", ["forward", "backward", "diagonal"])
 
   """
   def generate(words, size, difficulty, directions) do
