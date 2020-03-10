@@ -15,16 +15,14 @@ defmodule WordSearch.Grid do
   defp display_grid(%{size: size, grid: grid}) do
     grid_size = size * size
     Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
-      x = rem(num, size)
-      y = div(num, size)
+      if rem(num, size) == 0 do
+        IO.puts ""
+      end
+
       case Map.fetch(grid, num) do
         {:ok, letter} -> IO.write "#{List.to_string([letter])} "
         :error -> IO.write "  "
       end
-
-      if x == 0 do
-        IO.puts ""
-      end 
     end)
   end
 
@@ -39,6 +37,8 @@ defmodule WordSearch.Grid do
     } |> place_words
   end
 
+  defp spot_available?(%{size: size}, x, _y, _letter) when x >= size, do: false
+  defp spot_available?(%{size: size}, _x, y, _letter) when y >= size, do: false
   defp spot_available?(state, x, y, letter) do
     case Map.fetch(state[:grid], x + (y * state[:size])) do
       {:ok, val} -> 
