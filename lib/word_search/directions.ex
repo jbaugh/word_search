@@ -1,4 +1,9 @@
 defmodule WordSearch.Directions do
+  def next_x_y(x, y, "right"), do: {x + 1, y}
+  def next_x_y(x, y, "down"), do: {x, y + 1}
+  def next_x_y(x, y, "rightdown"), do: {x + 1, y + 1}
+  def next_x_y(x, y, "rightup"), do: {x + 1, y - 1}
+
   def orient_word_and_direction(word, "left") do
     {String.reverse(word), "right"}
   end

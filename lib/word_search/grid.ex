@@ -8,23 +8,40 @@ defmodule WordSearch.Grid do
       directions: WordSearch.Directions.convert(directions)
     }
     place_words(state)
+    |> display_grid
     :ok
   end
 
+  defp display_grid(state) do
+    IO.puts inspect state[:grid]
+  end
+
   defp place_words(state = %{words: []}), do: state
-  defp place_words(state = %{words: [word|words], size: size, available_positions: available_positions, grid: grid, directions: [dir|directions]}) do
-    place_word(state, word, dir)
+  defp place_words(state = %{words: [word|words], size: size, available_positions: available_positions, directions: [dir|directions]}) do
     %{
       words: words,
-      grid: grid,
+      grid: place_word(state, word, dir)[:grid],
       size: size,
       available_positions: available_positions,
       directions: directions ++ [dir] # Cycle the directions
     } |> place_words
   end
 
-  defp spot_available?(state, x, y) do
-    !Map.has_key?(state[:grid], x + (y * state[:size]))
+  defp spot_available?(state, x, y, letter) do
+    case Map.fetch(state[:grid], x + (y * state[:size])) do
+      {:ok, val} -> 
+        if val == letter do
+          true
+        else
+          false
+        end
+      :error -> true
+    end
+  end
+
+  defp set_spot(state, x, y, letter) do
+    # Map.put(state[:grid], x + (y * state[:size], letter)
+    put_in(state, [:grid, x + (y * state[:size])], letter)
   end
 
   defp place_word(state, word, direction) do
@@ -41,10 +58,39 @@ defmodule WordSearch.Grid do
   end
   defp place_word(state, word, direction, [position|positions]) do
     {x, y} = position
-    if spot_available?(state, x, y) do
-      IO.puts "Trying word " <> word <> " going " <> direction <> " at (" <> Integer.to_string(x) <> ", " <> Integer.to_string(y) <> ")"
+    if can_place_word?(state, word, direction, x, y) do
+      IO.puts "Can place word!"
+      insert_word(state, word, direction, x, y)
     else
       place_word(state, word, direction, positions)
+    end
+  end
+
+  defp insert_word(state, word, direction, x, y) do
+    _insert_word(state, to_charlist(word), direction, x, y)
+  end
+  defp _insert_word(state, [], _direction, _x, _y) do
+    state
+  end
+  defp _insert_word(state, [letter|word], direction, x, y) do
+    {nx, ny} = WordSearch.Directions.next_x_y(x, y, direction)
+    set_spot(state, letter, x, y)
+    |> _insert_word(word, direction, nx, ny)
+  end
+
+  defp can_place_word?(state, word, direction, x, y) do
+    IO.puts "Trying word '" <> word <> "' going " <> direction <> " at (" <> Integer.to_string(x) <> ", " <> Integer.to_string(y) <> ")"
+    _can_place_word?(state, to_charlist(word), direction, x, y)
+  end
+  defp _can_place_word?(_state, [], _direction, _x, _y) do
+    true
+  end
+  defp _can_place_word?(state, [letter|word], direction, x, y) do
+    case spot_available?(state, letter, x, y) do
+      true ->
+        {nx, ny} = WordSearch.Directions.next_x_y(x, y, direction)
+        _can_place_word?(state, word, direction, nx, ny)
+      false -> false
     end
   end
 
