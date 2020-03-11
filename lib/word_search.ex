@@ -10,16 +10,16 @@ defmodule WordSearch do
 
       iex> WordSearch.generate(["word", "another", "yetanother", "food", "red", "car", "treetop"], 10, "easy", ["forward", "diagonal"])
 
-      V Y C A A A B N B I 
-      Q K A Z N K C O G J 
-      W I N X F T V D U I 
-      V A O J E P J D K T 
-      C U T J A G C N Z J 
-      B X H G W O R D A I 
-      J M E B I Z G F W G 
-      F M R Y Q U S Y F X 
-      S I Q X R J T P T T 
-      G U I V S K R A W W 
+      Y T J H J O B T R G
+      E E R E F U G C H D
+      K Y T E K V J F V Q
+      U V W A E F A H A Y
+      F M I L N T N T Q C
+      W O R D Q O O K X A
+      A T L Q X W T P Q R
+      F S H L G T H H H B
+      B P V Y D O E F E Y
+      D R E D L I R Z V R
   """
   def generate(words, size, difficulty, directions) do
     generate(words, size, difficulty, directions, "english")
