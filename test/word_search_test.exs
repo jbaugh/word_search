@@ -1,8 +1,7 @@
 defmodule WordSearchTest do
   use ExUnit.Case
-  doctest WordSearch
 
-  test "greets the world" do
-    # assert WordSearch.hello() == :world
+  test "generates the word search" do
+    assert WordSearch.generate(["word", "war"], 5, "easy", ["forward", "diagonal"]) == :ok
   end
 end

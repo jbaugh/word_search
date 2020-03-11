@@ -10,6 +10,20 @@ defmodule WordSearch.State do
     }
   end
 
+  def display_grid(state = %{grid: grid, size: size}) do
+    grid_size = size * size
+    Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
+      if rem(num, size) == 0 do
+        IO.puts ""
+      end
+      case Map.fetch(grid, num) do
+        {:ok, letter} -> IO.write "#{List.to_string([letter])} "
+        :error -> :ok
+      end
+    end)
+    state
+  end
+
   def spot_available?(%{size: size}, x, _y, _letter) when x >= size, do: false
   def spot_available?(%{size: size}, _x, y, _letter) when y >= size, do: false
   def spot_available?(state, x, y, letter) do

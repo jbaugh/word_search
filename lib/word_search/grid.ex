@@ -3,9 +3,9 @@ defmodule WordSearch.Grid do
     WordSearch.State.new(alpahbet, words, size, directions)
     |> place_words
     |> fill_unclaimed_spaces
-    |> display_grid
   end
 
+  # Place random letters in any unfilled spots on grid
   defp fill_unclaimed_spaces(state = %{size: size}) do
     grid_size = size * size
     fill_unclaimed_spaces(state, grid_size - 1)
@@ -20,20 +20,7 @@ defmodule WordSearch.Grid do
       end
   end
 
-  defp display_grid(state = %{grid: grid, size: size}) do
-    grid_size = size * size
-    Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
-      if rem(num, size) == 0 do
-        IO.puts ""
-      end
-      case Map.fetch(grid, num) do
-        {:ok, letter} -> IO.write "#{List.to_string([letter])} "
-        :error -> :ok
-      end
-    end)
-    state
-  end
-
+  # GO through words and try to place them
   defp place_words(state = %{words: []}), do: state
   defp place_words(state = %{words: [word|words], directions: [dir|directions]}) do
     %{
