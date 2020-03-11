@@ -10,25 +10,6 @@ defmodule WordSearch.State do
     }
   end
 
-  def fill_unclaimed_spaces(%{size: size, grid: grid, alpahbet: alpahbet}) do
-    grid_size = size * size
-    Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
-      case Map.fetch(grid, num) do
-        {:ok, letter} -> letter
-        :error -> Enum.take_random(alpahbet, 1)
-      end
-    end)
-  end
-
-  def display_grid(grid) do
-    Enum.map(Enum.with_index(grid), fn {letter, index} ->
-      if rem(index, 10) == 0 do
-        IO.puts ""
-      end
-      IO.write "#{List.to_string([letter])} "
-    end)
-  end
-
   def spot_available?(%{size: size}, x, _y, _letter) when x >= size, do: false
   def spot_available?(%{size: size}, _x, y, _letter) when y >= size, do: false
   def spot_available?(state, x, y, letter) do
@@ -47,6 +28,7 @@ defmodule WordSearch.State do
     put_in(state, [:grid, x + (y * state[:size])], letter)
   end
 
+  # Generates a list of possible positions to place
   defp generate_positions(side_size) do
     grid_size = side_size * side_size
     Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
