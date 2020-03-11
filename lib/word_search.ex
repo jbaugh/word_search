@@ -26,6 +26,6 @@ defmodule WordSearch do
   end
   def generate(words, size, difficulty, directions, language) do
     WordSearch.Alphabet.list(words, difficulty, language)
-    |> WordSearch.WordSearch.build(words, size, directions)
+    |> WordSearch.Grid.build(words, size, directions)
   end
 end

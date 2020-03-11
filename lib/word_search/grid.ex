@@ -1,4 +1,4 @@
-defmodule WordSearch.WordSearch do
+defmodule WordSearch.Grid do
   def build(alpahbet, words, size, directions) do
     WordSearch.State.new(alpahbet, words, size, directions)
     |> place_words
