@@ -1,4 +1,11 @@
 defmodule WordSearch.Alphabet do
+  @moduledoc """
+  The list of characters to be used in the word search. For any case, the characters used in the input words will be used in the alphabet. For "easy" difficulty, the full alphabet will be used. Special characters will only be included if the input words contain them.
+  """
+
+  @doc """
+  Return a list of characters to be used based on the input words, difficulty and language
+  """
   # Only use characters within the word set
   def list(words, "hard", _language) do
     get_characters_in_words(words)
