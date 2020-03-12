@@ -9,6 +9,8 @@ defmodule WordSearch do
   ## Examples
 
       iex> WordSearch.generate(["word", "another", "yetanother", "food", "red", "car", "treetop"], 10)
+  
+      (when displayed):
 
       Y T J H J O B T R G
       E E R E F U G C H D
@@ -40,5 +42,6 @@ defmodule WordSearch do
   def generate(words, size, directions, difficulty, language) do
     WordSearch.Alphabet.list(words, difficulty, language)
     |> WordSearch.Grid.build(words, size, directions)
+    |> Map.fetch!(:grid)
   end
 end
