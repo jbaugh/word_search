@@ -29,15 +29,15 @@ defmodule WordSearch do
       language - which character set to use. right now only english is supported, however words with special characters will be added to the alphabet for the word search 
   """
   def generate(words, size) do
-    generate(words, size, "easy", ["forward", "diagonal"], "english")
+    generate(words, size, ["forward", "diagonal"], "easy", "english")
   end
   def generate(words, size, directions) do
-    generate(words, size, "easy", directions, "english")
+    generate(words, size, directions, "easy", "english")
   end
-  def generate(words, size, difficulty, directions) do
-    generate(words, size, difficulty, directions, "english")
+  def generate(words, size, directions, difficulty) do
+    generate(words, size, directions, difficulty, "english")
   end
-  def generate(words, size, difficulty, directions, language) do
+  def generate(words, size, directions, difficulty, language) do
     WordSearch.Alphabet.list(words, difficulty, language)
     |> WordSearch.Grid.build(words, size, directions)
   end
