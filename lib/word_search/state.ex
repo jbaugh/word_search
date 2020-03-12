@@ -3,6 +3,7 @@ defmodule WordSearch.State do
     %{
       alpahbet: alpahbet,
       words: words,
+      placed_words: [],
       grid: %{}, # 1d "array"
       size: size, # size of one side
       available_positions: generate_positions(size),

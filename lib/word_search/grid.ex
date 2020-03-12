@@ -23,9 +23,11 @@ defmodule WordSearch.Grid do
   # GO through words and try to place them
   defp place_words(state = %{words: []}), do: state
   defp place_words(state = %{words: [word|words], directions: [dir|directions]}) do
+    new_state = attempt_to_place_word(state, String.upcase(word), [dir] ++ directions)
     %{
+      placed_words: new_state[:placed_words], 
       words: words,
-      grid: attempt_to_place_word(state, String.upcase(word), dir)[:grid],
+      grid: new_state[:grid],
       size: state[:size],
       available_positions: state[:available_positions],
       directions: directions ++ [dir], # Cycle the directions
@@ -35,19 +37,25 @@ defmodule WordSearch.Grid do
   end
 
   # A "wrapper" method for attempt_to_place_word/4
-  defp attempt_to_place_word(state, word, direction) do
+  defp attempt_to_place_word(state, word, []) do
+    IO.puts "Could not place word - #{word}"
+    state
+  end
+  defp attempt_to_place_word(state, word, [direction|directions]) do
     # Shuffle positions so that it doesn't keep trying in one specific area
     positions = Enum.shuffle(state[:available_positions])
     # If direction is 'backwards', make it 'forwards' and reverse word
     {word_to_place, direction_to_place} = WordSearch.Directions.orient_word_and_direction(word, direction)
-    attempt_to_place_word(state, word_to_place, direction_to_place, positions)
+    case attempt_to_place_word(state, word_to_place, direction_to_place, positions) do
+      :could_not_place_word_error -> attempt_to_place_word(state, word, directions)
+      new_state -> new_state
+    end
   end
 
   # Checks if the word can fit in the given coords/direction. If it cannot be placed,
   # it checks the next set of coords.
-  defp attempt_to_place_word(state, word, _direction, []) do
-    IO.puts "Could not place word - #{word}"
-    state
+  defp attempt_to_place_word(_state, _word, _direction, []) do
+    :could_not_place_word_error
   end
   defp attempt_to_place_word(state, word, direction, [position|positions]) do
     {x, y} = position
@@ -63,6 +71,7 @@ defmodule WordSearch.Grid do
   # Note: this does not check for validity
   defp place_word(state, word, direction, x, y) do
     _place_word(state, to_charlist(word), direction, x, y)
+    |> Map.put(:placed_words, state[:placed_words] ++ [word])
   end
   defp _place_word(state, [], _direction, _x, _y) do
     state
