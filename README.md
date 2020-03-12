@@ -19,8 +19,7 @@ WordSearch.generate(word_list, size, directions, difficulty)
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `word_search` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `word_search` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -30,7 +29,5 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/word_search](https://hexdocs.pm/word_search).
+Documentation can be found on [HexDocs](https://hexdocs.pm/word_search/0.1.0).
 
