@@ -23,6 +23,8 @@ defmodule WordSearch.Grid do
   # GO through words and try to place them
   defp place_words(state = %{words: []}), do: state
   defp place_words(state = %{words: [word|words], directions: [dir|directions]}) do
+    # Pass the entire direction list so that it can try all directions if it fails to place;
+    # We cycle the direction for the next word, so that it tries to evenly distribute the directions
     new_state = attempt_to_place_word(state, String.upcase(word), [dir] ++ directions)
     %{
       placed_words: new_state[:placed_words], 

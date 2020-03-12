@@ -8,7 +8,7 @@ defmodule WordSearch do
 
   ## Examples
 
-      iex> WordSearch.generate(["word", "another", "yetanother", "food", "red", "car", "treetop"], 10, "easy", ["forward", "diagonal"])
+      iex> WordSearch.generate(["word", "another", "yetanother", "food", "red", "car", "treetop"], 10)
 
       Y T J H J O B T R G
       E E R E F U G C H D
@@ -21,6 +21,12 @@ defmodule WordSearch do
       B P V Y D O E F E Y
       D R E D L I R Z V R
   """
+  def generate(words, size) do
+    generate(words, size, "easy", ["forward", "diagonal"], "english")
+  end
+  def generate(words, size, directions) do
+    generate(words, size, "easy", directions, "english")
+  end
   def generate(words, size, difficulty, directions) do
     generate(words, size, difficulty, directions, "english")
   end
