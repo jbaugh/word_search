@@ -10,6 +10,22 @@ WordSearch.generate(word_list, size, directions)
 WordSearch.generate(word_list, size, directions, difficulty)
 ```
 
+### Produces:
+```
+[
+  ["R", "A", "T", "F", "K", "Y", "K", "V", "K", "R"],
+  ["Q", "N", "B", "I", "H", "M", "T", "C", "E", "G"],
+  ["D", "O", "G", "W", "O", "R", "D", "H", "F", "N"],
+  ["T", "T", "C", "A", "G", "D", "T", "A", "U", "H"], 
+  ["I", "H", "A", "F", "O", "O", "A", "K", "G", "Z"],
+  ["N", "E", "R", "O", "N", "A", "L", "P", "B", "M"],
+  ["P", "R", "F", "A", "W", "R", "E", "D", "K", "G"],
+  ["R", "G", "T", "E", "J", "M", "R", "Q", "P", "I"],
+  ["X", "E", "E", "S", "S", "E", "C", "T", "Z", "D"],
+  ["Y", "S", "D", "L", "Q", "Y", "K", "R", "J", "F"]
+]
+```
+
 ## Options
 - word_list (example: ["car", "food", "tree"])
 - size (the size of the word search. a size of 10 will create a 10x10 grid)

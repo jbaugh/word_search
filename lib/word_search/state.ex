@@ -11,6 +11,22 @@ defmodule WordSearch.State do
     }
   end
 
+  def to_list(state = %{size: size}) do
+    new_grid = build_list(0, size * size, state[:grid], [])
+
+    state
+    |> Map.put(:grid, Enum.chunk_every(new_grid, size))
+  end
+
+  # Work from 0 to max_size - 1. When the num is equal to max_size, we are at the end
+  defp build_list(max_size, max_size, _grid, list), do: list
+  defp build_list(num, max_size, grid, list) do
+    case Map.fetch(grid, num) do
+      {:ok, val} -> build_list(num + 1, max_size, grid, list ++ [val])
+      :error -> build_list(num + 1, max_size, grid, list)
+    end
+  end
+
   def display_grid(state = %{grid: grid, size: size}) do
     grid_size = size * size
     Enum.map(Enum.to_list(0..(grid_size - 1)), fn num ->
@@ -18,7 +34,7 @@ defmodule WordSearch.State do
         IO.puts ""
       end
       case Map.fetch(grid, num) do
-        {:ok, letter} -> IO.write "#{List.to_string([letter])} "
+        {:ok, letter} -> IO.write "#{letter} "
         :error -> :ok
       end
     end)
@@ -40,7 +56,7 @@ defmodule WordSearch.State do
   end
 
   def set_letter(state, x, y, letter) do
-    put_in(state, [:grid, x + (y * state[:size])], letter)
+    put_in(state, [:grid, x + (y * state[:size])], List.to_string([letter]))
   end
 
   # Generates a list of possible positions to place

@@ -6,18 +6,19 @@ defmodule WordSearch do
 
       iex> WordSearch.generate(["word", "another", "yetanother", "food", "red", "car", "treetop"], 10)
 
-      Produces something like:
+      [
+        ["R", "A", "T", "F", "K", "Y", "K", "V", "K", "R"],
+        ["Q", "N", "B", "I", "H", "M", "T", "C", "E", "G"],
+        ["D", "O", "G", "W", "O", "R", "D", "H", "F", "N"],
+        ["T", "T", "C", "A", "G", "D", "T", "A", "U", "H"], 
+        ["I", "H", "A", "F", "O", "O", "A", "K", "G", "Z"],
+        ["N", "E", "R", "O", "N", "A", "L", "P", "B", "M"],
+        ["P", "R", "F", "A", "W", "R", "E", "D", "K", "G"],
+        ["R", "G", "T", "E", "J", "M", "R", "Q", "P", "I"],
+        ["X", "E", "E", "S", "S", "E", "C", "T", "Z", "D"],
+        ["Y", "S", "D", "L", "Q", "Y", "K", "R", "J", "F"]
+      ]
 
-        Y T J H J O B T R G
-        E E R E F U G C H D
-        K Y T E K V J F V Q
-        U V W A E F A H A Y
-        F M I L N T N T Q C
-        W O R D Q O O K X A
-        A T L Q X W T P Q R
-        F S H L G T H H H B
-        B P V Y D O E F E Y
-        D R E D L I R Z V R
 
   ## Parameters
       
