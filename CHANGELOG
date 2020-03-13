@@ -1,1 +1,2 @@
-.
+0.1.0 -> 0.2.0
+- Change format of output from a Map of position -> letter to list of lists

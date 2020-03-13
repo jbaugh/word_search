@@ -40,10 +40,10 @@ The package can be installed by adding `word_search` to your list of dependencie
 ```elixir
 def deps do
   [
-    {:word_search, "~> 0.1.0"}
+    {:word_search, "~> 0.2.0"}
   ]
 end
 ```
 
-Documentation can be found on [HexDocs](https://hexdocs.pm/word_search/0.1.0).
+Documentation can be found on [HexDocs](https://hexdocs.pm/word_search/0.2.0).
 
